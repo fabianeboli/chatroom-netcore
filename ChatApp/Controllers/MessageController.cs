@@ -9,8 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Controllers
 {
+    // FIXME
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/{chatRoomId}/[controller]")]
     public class MessageController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ChatApp.Data;
 using ChatApp.Models;
@@ -10,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ChatApp.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ChatAppController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;

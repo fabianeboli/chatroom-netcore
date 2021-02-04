@@ -1,4 +1,6 @@
+using System.Text;
 using ChatApp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -6,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatApp
 {
@@ -21,12 +24,29 @@ namespace ChatApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+     
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)    
+                .AddJwtBearer(options =>    
+                {    
+                    options.TokenValidationParameters = new TokenValidationParameters    
+                    {    
+                        ValidateIssuer = true,    
+                        ValidateAudience = true,    
+                        ValidateLifetime = true,    
+                        ValidateIssuerSigningKey = true,    
+                        ValidIssuer = Configuration["Jwt:Issuer"],    
+                        ValidAudience = Configuration["Jwt:Issuer"],    
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))    
+                    };    
+                });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +66,8 @@ namespace ChatApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            app.UseAuthentication();
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

@@ -1,16 +1,17 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ChatApp.Models
 {
     public class Message
     {
-        public int Id { get; set; }
-        public string Author { get; set; }
-        public string Date { get; set; }
-        public string Text { get; set; }
-        public int ChatRoomId { get; set; }
+        [Key] public int Id { get; set; }
+        [Required] public string Date { get; set; }
+        [Required] public string Text { get; set; }
+        [ForeignKey("User")] public string UserId { get; set; }
 
         public Message()
         {
-            
         }
     }
 }
