@@ -35,7 +35,6 @@
     <ItemGroup>
       <Folder Include="ClientApp\src\components\Chat" />
       <Folder Include="ClientApp\src\components\Message" />
-      <Folder Include="ClientApp\src\components\SignIn" />
       <Folder Include="ClientApp\src\components\SignUp" />
       <Folder Include="ClientApp\src\Pages" />
     </ItemGroup>

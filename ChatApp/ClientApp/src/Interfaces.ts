@@ -3,15 +3,27 @@ export interface IChatRoom {
     id: string;
 }
 
-export interface IUser {
+export interface INewUser {
     username: string;
     password: string;
     email: string;
     subscribedChatRooms: IChatRoom[]
 }
 
+export interface ILoggedUser {
+    username: string;
+    email: string;
+    subscribedChatRooms: IChatRoom[];
+    token: string;
+}
+
 export interface IMessage {
     author: string;
     date: string; 
     text: string;
+}
+
+export interface ILogin {
+    email: string;
+    password: string;
 }

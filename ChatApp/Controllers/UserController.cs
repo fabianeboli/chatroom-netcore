@@ -49,11 +49,12 @@ namespace ChatApp.Controllers
 
         // Sign Up
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<User>> Post(User user)
         {
             Console.WriteLine("Creating User");
 
-            var userExists = await _dbContext.User.FirstAsync(u => u.Email == user.Email);
+            var userExists = await _dbContext.User.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (userExists != null) return BadRequest();
 
             await _dbContext.User.AddAsync(user);
@@ -65,7 +66,7 @@ namespace ChatApp.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult<User>> Patch(int id, [FromBody] JsonPatchDocument<User> patchEntity)
         {
-            var user = await _dbContext.User.FirstAsync(u => u.Id == id);
+            var user = await _dbContext.User.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
 
             patchEntity.ApplyTo(user, ModelState);
@@ -77,7 +78,7 @@ namespace ChatApp.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> Delete(int id)
         {
-            var user = await _dbContext.User.FirstAsync(u => u.Id == id);
+            var user = await _dbContext.User.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
 
             _dbContext.User.Remove(user);
@@ -86,14 +87,19 @@ namespace ChatApp.Controllers
             return Ok(user);
         }
 
+        public record LoginData(string Email, string Password);
+
         [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody] User login)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginData login)
         {
             IActionResult response = Unauthorized();
-            var user = await AuthenticateUser(login);
+            var foundUser = await _dbContext.User.FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+            if (foundUser == null) return BadRequest();
+
+            var user = await AuthenticateUser(foundUser);
             if (user == null) return response;
-            
+
             var tokenString = await GenerateJSONWebToken(user);
             response = Ok(new {token = tokenString});
 

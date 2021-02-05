@@ -17,7 +17,7 @@ namespace ChatApp.Models
         [Required, MinLength(3), MaxLength(120), EmailAddress]
         public string Email { get; set; }
 
-        public IEnumerable<ChatRoom> SubscribedChatRooms { get; set; }
+        public IEnumerable<ChatRoom> SubscribedChatRooms { get; set; } = new List<ChatRoom>();
 
         public User()
         {
