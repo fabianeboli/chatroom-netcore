@@ -35,8 +35,11 @@
     <ItemGroup>
       <Folder Include="ClientApp\src\components\Chat" />
       <Folder Include="ClientApp\src\components\Message" />
-      <Folder Include="ClientApp\src\components\SignUp" />
       <Folder Include="ClientApp\src\Pages" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\services\helperFunctions.ts" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

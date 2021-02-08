@@ -7,7 +7,7 @@ export interface INewUser {
     username: string;
     password: string;
     email: string;
-    subscribedChatRooms: IChatRoom[]
+    //subscribedChatRooms: IChatRoom[]
 }
 
 export interface ILoggedUser {

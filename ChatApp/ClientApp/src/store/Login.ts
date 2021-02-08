@@ -11,8 +11,6 @@ export interface ILogin {
     type: actTypes;
     username: string;
     email: string;
-
-
 }
 
 export interface ILogOut {
@@ -20,18 +18,11 @@ export interface ILogOut {
 }
 
 export const storeLogin = (login: ILoggedUser) => {
-
     return {
         type: actTypes.SIGN_IN,
         login
     }
 }
-
-// export const retrieveLogin = () => {
-//     return {
-//         type: actTypes.RETRIEVE
-//     }
-// }
 
 export const deleteLogin = () => {
     return {
@@ -39,11 +30,10 @@ export const deleteLogin = () => {
     }
 }
 
-
 //reducer
 const initialState: ILoggedUser = {
     email: localStorage.getItem("email") || "",
-    subscribedChatRooms: [],
+    subscribedChatRooms: localStorage.getItem("subscribedChatRooms") && JSON.parse(localStorage.getItem("subscribedChatRooms") as string) || "",
     token: localStorage.getItem("token") || "",
     username: localStorage.getItem("username") || ""
 };
@@ -53,6 +43,7 @@ export const reducer = (state = initialState, action: any) => {
         case actTypes.SIGN_IN:
             localStorage.setItem("email", action.login.email);
             localStorage.setItem("username", action.login.username);
+            localStorage.setItem("subscribedChatRooms", action.login.subscribedChatRooms);
             localStorage.setItem("token", action.login.token);
             return {...action.login};
         case actTypes.SIGN_OUT:

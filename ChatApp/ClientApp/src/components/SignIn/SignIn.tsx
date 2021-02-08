@@ -2,22 +2,23 @@ import React, {useState} from 'react';
 import fetchService from "../../services/fetchService";
 import {useDispatch, useSelector} from "react-redux";
 import {storeLogin} from "../../store/Login";
+import {emailValidation} from "../../services/helperFunctions";
 
 type MouseEvent = React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>;
+
 
 const SignIn = () => {
     const [error, setError] = useState<string[]>([]);
     const [email, setEmail] = useState<string>("test@test.com");
     const [password, setPassword] = useState<string>("Ewqewqeads");
     const dispatch = useDispatch();
-    const loginSelector  = useSelector((state: any)=> state.login);
+    const loginSelector = useSelector((state: any) => state.login);
 
     const handleSubmit = async (event: MouseEvent) => {
         event.preventDefault();
         setError([]);
         console.log(error);
-        const emailPattern: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const isEmailValid: boolean = emailPattern.test(email.toLowerCase());
+        const isEmailValid = emailValidation(email);
         const isPasswordValid: boolean = password.length >= 6;
 
 
@@ -41,7 +42,7 @@ const SignIn = () => {
                 <input type="text" name="email" placeholder="email" required value={email}
                        onChange={({target}) => setEmail(target.value)}/>
 
-                <input type="password" name="password" placeholder="password" required value={password}
+                <input type="password" name="password" placeholder="password" min={6} required value={password}
                        onChange={({target}) => setPassword(target.value)}/>
             </form>
         </>
@@ -50,7 +51,7 @@ const SignIn = () => {
     return (
         <div>
             <h4>Sign in</h4>
-            {loginSelector.token ? <h4>You are logged in</h4> : LoginForm }
+            {loginSelector.token ? <h4>You are logged in</h4> : LoginForm}
 
 
             <button type="submit" className="btn btn-primary" onClick={(event) => handleSubmit(event)}>Sign in</button>

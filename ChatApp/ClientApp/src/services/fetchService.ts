@@ -1,15 +1,11 @@
-import {ILogin} from "../Interfaces";
+import {ILogin, INewUser} from "../Interfaces";
 
 const chatControllerUrl = "api/chat";
 const userControllerUrl = "api/user";
 const loginUrl = "api/user/login"
 
-const getChats = async () => {
-    const chats = await fetch(chatControllerUrl);
-    return chats.ok ? await chats.json() : alert("No chats found");
-}
 
-const login = async (user: ILogin) => {
+const postOptions = (user: INewUser | ILogin) => {
     const options = {
         method: 'POST',
         headers: {
@@ -17,17 +13,30 @@ const login = async (user: ILogin) => {
         },
         body: JSON.stringify(user)
     }
+    return options;
+};
 
 
-    const response = await fetch(loginUrl, options);
+const getChats = async () => {
+    const chats = await fetch(chatControllerUrl);
+    return chats.ok ? await chats.json() : alert("No chats found");
+}
+
+const login = async (user: ILogin) => {
+    const response = await fetch(loginUrl, postOptions(user));
     console.log(response);
     if (response.ok) {
         const result = await response.json();
-        console.log("result user: " + result.token);
         return result;
     }
     return "Error";
 
 }
 
-export default {getChats, login};
+
+const signUp = async (user: INewUser) => {
+    const response = await fetch(userControllerUrl, postOptions(user));
+    return response.ok && await response.json();
+};
+
+export default {getChats, login, signUp};

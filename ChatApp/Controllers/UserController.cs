@@ -94,14 +94,21 @@ namespace ChatApp.Controllers
         public async Task<IActionResult> Login([FromBody] LoginData login)
         {
             IActionResult response = Unauthorized();
-            var foundUser = await _dbContext.User.FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+            var foundUser =
+                await _dbContext.User.FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
             if (foundUser == null) return BadRequest();
 
             var user = await AuthenticateUser(foundUser);
             if (user == null) return response;
 
             var tokenString = await GenerateJSONWebToken(user);
-            response = Ok(new {token = tokenString});
+            response = Ok(new
+            {
+                email = foundUser.Email, 
+                subscribedChatRooms = foundUser.SubscribedChatRooms,
+                username = foundUser.Username, 
+                token = tokenString
+            });
 
             return response;
         }
