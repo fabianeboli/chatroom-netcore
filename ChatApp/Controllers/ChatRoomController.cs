@@ -10,11 +10,11 @@ namespace ChatApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ChatAppController : ControllerBase
+    public class ChatRoomController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ChatAppController(ApplicationDbContext dbContext)
+        public ChatRoomController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             Console.WriteLine("Starting Chat Server...");
@@ -37,12 +37,11 @@ namespace ChatApp.Controllers
                 .FirstAsync(c => c.Id == id);
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<ChatRoom>> Post(int id, ChatRoom chatRoom)
+        [HttpPost]
+        public async Task<ActionResult<ChatRoom>> Post([FromBody] string name)
         {
             Console.WriteLine("Creating chatroom");
-            var findChatRoomId = _dbContext.ChatRoom.FirstAsync(c => c.Id == id).Id;
-            if (findChatRoomId == id) return NotFound();
+            var chatRoom = new ChatRoom(name);
             await _dbContext.ChatRoom.AddAsync(chatRoom);
             await _dbContext.SaveChangesAsync();
             return Ok(chatRoom);

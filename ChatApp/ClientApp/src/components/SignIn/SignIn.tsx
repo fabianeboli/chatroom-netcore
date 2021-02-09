@@ -17,10 +17,8 @@ const SignIn = () => {
     const handleSubmit = async (event: MouseEvent) => {
         event.preventDefault();
         setError([]);
-        console.log(error);
         const isEmailValid = emailValidation(email);
         const isPasswordValid: boolean = password.length >= 6;
-
 
         if (isEmailValid && isPasswordValid) {
             const login = await fetchService.login({email, password});

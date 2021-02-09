@@ -1,3 +1,5 @@
+import {MouseEvent} from "react";
+
 export interface IChatRoom {
     name: string; 
     id: string;
@@ -27,3 +29,9 @@ export interface ILogin {
     email: string;
     password: string;
 }
+
+export interface IReducer {
+    login: any; 
+}
+
+export type MouseEvent = MouseEvent<HTMLButtonElement, MouseEvent>;
