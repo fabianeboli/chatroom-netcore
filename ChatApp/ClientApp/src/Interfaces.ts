@@ -3,6 +3,7 @@ import {MouseEvent} from "react";
 export interface IChatRoom {
     name: string; 
     id: string;
+    userId: number;
 }
 
 export interface INewUser {
@@ -13,6 +14,7 @@ export interface INewUser {
 }
 
 export interface ILoggedUser {
+    id: string;
     username: string;
     email: string;
     subscribedChatRooms: IChatRoom[];

@@ -104,6 +104,7 @@ namespace ChatApp.Controllers
             var tokenString = await GenerateJSONWebToken(user);
             response = Ok(new
             {
+                id = foundUser.Id,
                 email = foundUser.Email, 
                 subscribedChatRooms = foundUser.SubscribedChatRooms,
                 username = foundUser.Username, 

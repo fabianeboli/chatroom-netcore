@@ -33,12 +33,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ClientApp\src\components\Chat" />
       <Folder Include="ClientApp\src\components\Message" />
       <Folder Include="ClientApp\src\Pages" />
     </ItemGroup>
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\components\ChatRoomForm\ChatRoomForm.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\Chat\Chat.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\DeleteChatRoom\DeleteChatRoom.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\EditChatRoom\EditChatRoom.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\NewChatRoom\NewChatRoom.tsx" />
       <TypeScriptCompile Include="ClientApp\src\services\helperFunctions.ts" />
     </ItemGroup>

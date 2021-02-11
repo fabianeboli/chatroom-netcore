@@ -9,6 +9,8 @@ import ChatRooms from "./components/ChatRooms/ChatRooms";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import NewChatRoom from "./components/NewChatRoom/NewChatRoom";
+import EditChatRoom from "./components/EditChatRoom/EditChatRoom";
+import DeleteChatRoom from "./components/DeleteChatRoom/DeleteChatRoom";
 
 export default () => {
 
@@ -18,6 +20,9 @@ export default () => {
             {localStorage.getItem("token") ? (
                 <div>
                     <Route exact path="/newchatroom" component={NewChatRoom}/>
+                    <Route exact path="/:id/edit" component={EditChatRoom}/>
+                    <Route exact path="/:id/delete" component={DeleteChatRoom}/>
+
                     {/*<Route exact path={"/signout"} component={() => dispatch(deleteLogin())}/>*/}
                 </div>
             ) : (

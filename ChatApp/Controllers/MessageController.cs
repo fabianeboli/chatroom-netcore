@@ -21,7 +21,7 @@ namespace ChatApp.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet("{messageId}/{id}")]
+        [HttpGet("{id}")]
         public async Task<List<IEnumerable<Message>>> Get(int id)
         {
             Console.WriteLine("");

@@ -32,6 +32,7 @@ export const deleteLogin = () => {
 
 //reducer
 const initialState: ILoggedUser = {
+    id: localStorage.getItem("id") || "",
     email: localStorage.getItem("email") || "",
     subscribedChatRooms: localStorage.getItem("subscribedChatRooms") && JSON.parse(localStorage.getItem("subscribedChatRooms") as string) || "",
     token: localStorage.getItem("token") || "",
@@ -41,6 +42,7 @@ const initialState: ILoggedUser = {
 export const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case actTypes.SIGN_IN:
+            localStorage.setItem("id", action.login.id);
             localStorage.setItem("email", action.login.email);
             localStorage.setItem("username", action.login.username);
             localStorage.setItem("subscribedChatRooms", action.login.subscribedChatRooms);
