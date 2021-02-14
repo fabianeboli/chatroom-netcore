@@ -13,7 +13,6 @@ const EditChatRoom = () => {
         const isChatRoomEdited = await fetchService.editChatRoom(id!, name, loginInfo.id);
 
         console.log(isChatRoomEdited);
-
     }
 
     return (

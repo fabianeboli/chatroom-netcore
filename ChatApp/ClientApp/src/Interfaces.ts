@@ -27,6 +27,12 @@ export interface IMessage {
     text: string;
 }
 
+export interface INewMessage {
+    author: string;
+    text: string;
+    userId: string;
+}
+
 export interface ILogin {
     email: string;
     password: string;

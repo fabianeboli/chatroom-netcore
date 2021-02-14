@@ -18,7 +18,6 @@ const DeleteChatRoom = () => {
     return (
         <>
             <h1>Delete Chat Room {id}?</h1>
-
             <button type="submit" onClick={handleSubmit}>Delete Chatroom</button>
         </>
     )

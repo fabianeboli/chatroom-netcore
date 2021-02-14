@@ -9,8 +9,9 @@ namespace ChatApp.Models
     {
         [Key] public int Id { get; set; }
         [Required, MinLength(3), MaxLength(32)] public string Name { get; set; }
-        public IEnumerable<Message> Messages { get; set; } = new List<Message>();
-        public IEnumerable<User> SubscribedUsers { get; set; } = new List<User>();
+        public List<Message> Messages { get; set; } = new List<Message>();
+
+        public List<User> SubscribedUsers { get; set; } = new List<User>();
         // owner
         [ForeignKey("User")] public int UserId { get; set; }
         public ChatRoom()
@@ -28,5 +29,7 @@ namespace ChatApp.Models
             Name = name;
             UserId = userId;
         }
+
+
     }
 }

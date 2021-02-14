@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using ChatApp.Data;
 using ChatApp.Models;
@@ -104,6 +107,38 @@ namespace ChatApp.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("{chatRoomId}/message")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessages(int chatRoomId)
+        {
+            Console.WriteLine("Getting Messages");
+            var foundMessages = await _dbContext.Message
+                .Where(m => m.ChatRoomId == chatRoomId)
+                .ToListAsync();
+
+            if (foundMessages == null || foundMessages.Count == 0) return NoContent();
+
+
+            return Ok(foundMessages);
+        }
+
+        public record NewMessage(string Text, int UserId, int ChatRoomId);
+
+        [HttpPost("{chatRoomId}/message")]
+        public async Task<ActionResult<Message>> PostMessages(int chatRoomId, [FromBody] NewMessage message)
+        {
+            Console.WriteLine($"Adding new Message {chatRoomId}");
+            var foundChatRoom = await _dbContext.ChatRoom
+                .Where(m => m.Id == chatRoomId)
+                .Include(c => c.Messages)
+                .ToListAsync();
+
+            if (foundChatRoom == null) return BadRequest();
+            _dbContext.Message.Update(new Message(DateTime.Now.ToString(CultureInfo.InvariantCulture), message.Text,
+                message.UserId, chatRoomId));
+            await _dbContext.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

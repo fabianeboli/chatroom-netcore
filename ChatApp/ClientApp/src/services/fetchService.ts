@@ -1,4 +1,4 @@
-import {ILogin, INewUser} from "../Interfaces";
+import {ILogin, IMessage, INewMessage, INewUser} from "../Interfaces";
 
 const chatController = "api/chatroom";
 const userController = "api/user";
@@ -7,13 +7,12 @@ const loginUrl = "api/user/login";
 enum Method {
     POST = "POST",
     PUT = "PUT",
-    PATCH = "PATCH",
     DELETE = "DELETE"
 }
 
 const options = (method: Method, body: any) => {
     return {
-        method: method,
+        method,
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
@@ -42,6 +41,7 @@ const getChats = async () => {
 }
 
 const newChatRoom = async (name: string, userId: string) => {
+    
     const response = await fetch(chatController, options(Method.POST, {name, userId}));
     if (!response.ok) console.log(`Error: ${response.status}`);
     return response.ok;
@@ -54,14 +54,19 @@ const editChatRoom = async (id: string, name: string, userId: string) => {
     return response.ok;
 }
 
-const deleteChatRoom = async (id:string, userId: string) => {
+const deleteChatRoom = async (id: string, userId: string) => {
     const response = await fetch(`${chatController}/${id}`, options(Method.DELETE, userId));
     return response.ok;
 }
 
 //messages
 const getMessages = async (chatRoomId: string) => {
-    const response = await fetch(`${chatController}/${chatRoomId}`);
+    const response = await fetch(`${chatController}/${chatRoomId}/message`);
+    return response.ok && response.json();
+}
+
+const newMessage = async (chatRoomId: string, message: INewMessage) => {
+    const response = await fetch(`${chatController}/${chatRoomId}/message`, options(Method.POST, message))
     return response.ok;
 }
 
@@ -73,5 +78,6 @@ export default {
     newChatRoom,
     editChatRoom,
     deleteChatRoom,
-    getMessages
+    getMessages,
+    newMessage
 };
