@@ -1,13 +1,12 @@
 import React from 'react';
 import {IMessage} from "../../Interfaces";
 
-const Message = ({author, date, text}: IMessage) => {
-
-
+const Message = ({username, date, text}: IMessage) => {
+    
     return (
         <div className="card card-body">
             <div>
-                <h4>{author}</h4> <p>{date}</p>
+                <h4>Username: {username}</h4> <p>{date}</p>
             </div>
 
             <div>

@@ -115,6 +115,14 @@ namespace ChatApp.Controllers
             Console.WriteLine("Getting Messages");
             var foundMessages = await _dbContext.Message
                 .Where(m => m.ChatRoomId == chatRoomId)
+                .Join(_dbContext.User, m => m.UserId, u => u.Id, (message, user) => new
+                {
+                    id = message.Id,
+                    date = message.Date,
+                    text = message.Text,
+                    chatRoomId = message.ChatRoomId,
+                    username = user.Username
+                })
                 .ToListAsync();
 
             if (foundMessages == null || foundMessages.Count == 0) return NoContent();

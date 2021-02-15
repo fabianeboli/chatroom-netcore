@@ -22,7 +22,7 @@ export interface ILoggedUser {
 }
 
 export interface IMessage {
-    author: string;
+    username: string;
     date: string; 
     text: string;
 }

@@ -27,7 +27,7 @@ const NewMessage = () => {
                    value={newMessage}
                    onChange={({target}) => setNewMessage(target.value)}/>
 
-            <button type="submit" onClick={handleSubmit}>
+            <button type="submit" disabled={newMessage.length == 0} onClick={handleSubmit}>
                 Submit
             </button>
         </div>

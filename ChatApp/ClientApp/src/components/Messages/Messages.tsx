@@ -10,16 +10,22 @@ const Messages = () => {
 
     useEffect(() => {
         const fetchMessages = async () => {
-            id !== undefined && setMessages(await fetchService.getMessages(id));
+            if (id === undefined) return;
+            const setOfMessages = await fetchService.getMessages(id);
+            setMessages(messages => [messages, ...setOfMessages]);
         }
-        fetchMessages();
-    }, []);
+        const timer = setTimeout(() => {
+            fetchMessages();
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, );
 
 
     return (
         <div>
-            {messages.length > 0 && messages.map(({author, date, text}) => (
-                <Message author={author} date={date} text={text}/>
+            {messages.length > 0 && messages.map(({username, date, text}) => (
+                <Message username={username} date={date} text={text}/>
             ))}
         </div>
     );
