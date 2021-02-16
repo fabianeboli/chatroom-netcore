@@ -92,11 +92,13 @@ namespace ChatApp
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
-
             app.UseRouting();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ChatApp.Data;
@@ -57,7 +57,11 @@ namespace ChatApp.Controllers
             var userExists = await _dbContext.User.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (userExists != null) return BadRequest();
 
-            await _dbContext.User.AddAsync(user);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+            var hashedUser = new User(user.Username, hashedPassword, user.Email);
+
+            await _dbContext.User.AddAsync(hashedUser);
             await _dbContext.SaveChangesAsync();
 
             return Ok(user);
@@ -95,45 +99,52 @@ namespace ChatApp.Controllers
         {
             IActionResult response = Unauthorized();
             var foundUser =
-                await _dbContext.User.FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+                await _dbContext.User.FirstOrDefaultAsync(u => u.Email == login.Email);
             if (foundUser == null) return BadRequest();
 
-            var user = await AuthenticateUser(foundUser);
+            var user = await AuthenticateUser(login);
             if (user == null) return response;
 
-            var tokenString = await GenerateJSONWebToken(user);
+            var tokenString = GenerateJsonWebToken(user);
             response = Ok(new
             {
                 id = foundUser.Id,
-                email = foundUser.Email, 
+                email = foundUser.Email,
                 subscribedChatRooms = foundUser.SubscribedChatRooms,
-                username = foundUser.Username, 
+                username = foundUser.Username,
                 token = tokenString
             });
 
             return response;
         }
 
-        protected async Task<string> GenerateJSONWebToken(User user)
+        private string GenerateJsonWebToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"],
-                null,
+                claims,
                 expires: DateTime.Now.AddMinutes(240),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        protected async Task<User?> AuthenticateUser(User user)
+        private async Task<User?> AuthenticateUser(LoginData user)
         {
             var foundUser = await _dbContext.User
-                .FirstAsync(u => u.Email == user.Email && u.Password == user.Password);
+                .FirstAsync(u => u.Email == user.Email);
 
-            return foundUser;
+            return BCrypt.Net.BCrypt.Verify(user.Password, foundUser.Password) ? foundUser : null;
         }
     }
 }

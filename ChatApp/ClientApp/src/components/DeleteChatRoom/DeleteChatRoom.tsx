@@ -5,14 +5,14 @@ import {Redirect, useParams} from "react-router";
 
 const DeleteChatRoom = () => {
     const [name, setName] = useState<string>("");
-    const loginInfo = useSelector((state:any)=> state.login);
+    const loginInfo = useSelector((state: any) => state.login);
     const {id} = useParams();
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        const isChatRoomDeleted = await fetchService.deleteChatRoom(id!, loginInfo.id);
+        const isChatRoomDeleted = await fetchService.deleteChatRoom(id!, loginInfo.id, loginInfo.token);
         console.log(isChatRoomDeleted);
-        isChatRoomDeleted && window.history.back(); 
+        isChatRoomDeleted && window.history.back();
     }
 
     return (

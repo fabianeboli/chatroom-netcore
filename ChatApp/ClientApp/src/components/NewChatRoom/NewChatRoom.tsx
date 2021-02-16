@@ -4,11 +4,11 @@ import {useSelector} from "react-redux";
 
 const NewChatRoom = () => {
     const [name, setName] = useState<string>("");
-    const loginInfo = useSelector((state:any) => state.login);
+    const loginInfo = useSelector((state: any) => state.login);
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        const isChatRoomAdded = await fetchService.newChatRoom(name, loginInfo.id);
+        const isChatRoomAdded = await fetchService.newChatRoom(name, loginInfo.id, loginInfo.token);
         isChatRoomAdded && window.history.back();
     }
 

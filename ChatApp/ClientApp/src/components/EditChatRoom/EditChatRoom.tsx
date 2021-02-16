@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import fetchService from "../../services/fetchService";
 import {useParams} from "react-router";
+import {IChatRoom} from "../../Interfaces";
 
 const EditChatRoom = () => {
     const [name, setName] = useState<string>("");
@@ -10,7 +11,8 @@ const EditChatRoom = () => {
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        const isChatRoomEdited = await fetchService.editChatRoom(id!, name, loginInfo.id);
+        const editedChatRoom: IChatRoom = {id: id!, name, userId: loginInfo.id}
+        const isChatRoomEdited = await fetchService.editChatRoom(editedChatRoom, loginInfo.token);
 
         console.log(isChatRoomEdited);
     }

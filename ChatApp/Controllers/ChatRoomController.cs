@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using ChatApp.Data;
 using ChatApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +42,7 @@ namespace ChatApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ChatRoom>> Post([FromBody] ChatRoom chatRoom)
         {
             Console.WriteLine("Creating chatroom");
@@ -51,6 +52,7 @@ namespace ChatApp.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody] ChatRoom chatRoom)
         {
             if (id != chatRoom.Id) return BadRequest();
@@ -69,6 +71,7 @@ namespace ChatApp.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Authorize]
         public async Task<ActionResult<ChatRoom>> Patch(int id, [FromBody] JsonPatchDocument<ChatRoom> patchEntity)
         {
             Console.WriteLine("Patching chatroom");
@@ -87,6 +90,7 @@ namespace ChatApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<ChatRoom>> Delete(int id, [FromBody] int userId)
         {
             Console.WriteLine($"Deleting ChatRoom");
@@ -110,6 +114,7 @@ namespace ChatApp.Controllers
         }
 
         [HttpGet("{chatRoomId}/message")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Message>>> GetMessages(int chatRoomId)
         {
             Console.WriteLine("Getting Messages");
@@ -134,6 +139,7 @@ namespace ChatApp.Controllers
         public record NewMessage(string Text, int UserId, int ChatRoomId);
 
         [HttpPost("{chatRoomId}/message")]
+        [Authorize]
         public async Task<ActionResult<Message>> PostMessages(int chatRoomId, [FromBody] NewMessage message)
         {
             Console.WriteLine($"Adding new Message {chatRoomId}");

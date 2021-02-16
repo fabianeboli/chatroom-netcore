@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import fetchService from "../../services/fetchService";
 import {useParams} from "react-router";
-import {IMessage, INewMessage} from "../../Interfaces";
+import {INewMessage} from "../../Interfaces";
 import {useSelector} from "react-redux";
 
 const NewMessage = () => {
@@ -16,7 +16,7 @@ const NewMessage = () => {
             userId: loginInfo.id
         }
 
-        id && fetchService.newMessage(id, message);
+        id && fetchService.newMessage(id, message, loginInfo.token);
 
         setNewMessage("");
     }
