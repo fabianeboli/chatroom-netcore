@@ -1,24 +1,41 @@
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import fetchService from "../../services/fetchService";
-import {Redirect, useParams} from "react-router";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
-const DeleteChatRoom = () => {
+interface IDeleteChatRoom {
+    id: string;
+}
+
+const DeleteChatRoom = ({id}: IDeleteChatRoom) => {
     const [name, setName] = useState<string>("");
     const loginInfo = useSelector((state: any) => state.login);
-    const {id} = useParams();
+    const [modal, setModal] = useState<boolean>(false);
+    
+    const toggle = () => setModal(show => !show);
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const isChatRoomDeleted = await fetchService.deleteChatRoom(id!, loginInfo.id, loginInfo.token);
         console.log(isChatRoomDeleted);
-        isChatRoomDeleted && window.history.back();
+        isChatRoomDeleted && window.location.reload();
     }
 
     return (
         <>
-            <h1>Delete Chat Room {id}?</h1>
-            <button type="submit" onClick={handleSubmit}>Delete Chatroom</button>
+            <Button color="danger" onClick={toggle}>
+               Delete 
+            </Button>
+
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>
+                    Delete ChatRoom
+                </ModalHeader>
+             
+                <ModalBody>
+                    <Button color="danger" type="submit" onClick={handleSubmit}>Delete Chatroom</Button>
+                </ModalBody>
+            </Modal>
         </>
     )
 };

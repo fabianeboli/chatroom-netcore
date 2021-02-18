@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
-import fetchService from "../../services/fetchService";
 
 interface IChatRoomForm {
     name: string;

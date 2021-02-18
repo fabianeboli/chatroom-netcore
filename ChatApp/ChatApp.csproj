@@ -34,7 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ClientApp\src\Pages" />
       <Folder Include="Migrations" />
     </ItemGroup>
 

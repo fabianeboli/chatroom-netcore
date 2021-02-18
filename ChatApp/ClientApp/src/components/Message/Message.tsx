@@ -1,18 +1,20 @@
 import React from 'react';
 import {IMessage} from "../../Interfaces";
+import {CardBody, CardText, CardTitle, ListGroupItem} from "reactstrap";
 
 const Message = ({username, date, text}: IMessage) => {
-    
-    return (
-        <div className="card card-body">
-            <div>
-                <h4>Username: {username}</h4> <p>{date}</p>
-            </div>
 
-            <div>
-                {text}
-            </div>
-        </div>
+    return (
+        <ListGroupItem>
+            <CardTitle>
+                <h5>Username: {username}</h5>
+                <h6>{date}</h6>
+            </CardTitle>
+
+            <CardBody>
+                <CardText>{text}</CardText>
+            </CardBody>
+        </ListGroupItem>
     );
 };
 

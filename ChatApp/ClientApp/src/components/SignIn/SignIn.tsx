@@ -3,6 +3,8 @@ import fetchService from "../../services/fetchService";
 import {useDispatch, useSelector} from "react-redux";
 import {storeLogin} from "../../store/Login";
 import {emailValidation} from "../../services/helperFunctions";
+import {Redirect} from "react-router";
+import {Alert, Button, Card, CardBody, Container, Form, Input} from "reactstrap";
 
 type MouseEvent = React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>;
 
@@ -32,30 +34,32 @@ const SignIn = () => {
     }
 
     const LoginForm: JSX.Element = (
-        <>
+        <Container className="flex">
             {error.map(err => (
-                <li>{err}</li>
+                <Alert color="danger">
+                    <li>{err}</li>
+                </Alert>
             ))}
-            <form className="form-group">
-                <input type="text" name="email" placeholder="email" required value={email}
-                       onChange={({target}) => setEmail(target.value)}/>
+            <CardBody>
+                <Form className="input-group">
+                    <Input className="form-control" type="text" name="email" placeholder="email" required value={email}
+                           onChange={({target}) => setEmail(target.value)}/>
 
-                <input type="password" name="password" placeholder="password" min={6} required value={password}
-                       onChange={({target}) => setPassword(target.value)}/>
-            </form>
-        </>
+                    <Input className="form-control" type="password" name="password" placeholder="password" min={6}
+                           required value={password}
+                           onChange={({target}) => setPassword(target.value)}/>
+                </Form>
+            </CardBody>
+        </Container>
     )
 
     return (
-        <div>
-            <h4>Sign in</h4>
-            {loginSelector.token ? <h4>You are logged in</h4> : LoginForm}
-
-
-            <button type="submit" className="btn btn-primary" onClick={(event) => handleSubmit(event)}>Sign in</button>
-
-
-        </div>
+        <Card className="mx-auto flex justify-content-center">
+            <h3 className="text-center my-2 py-2 border-bottom text-secondary">Sign in</h3>
+            {loginSelector.token ? <Redirect to="/"/> : LoginForm}
+            <Button color="primary" type="submit" className="w-75 align-self-center my-2"
+                    onClick={(event) => handleSubmit(event)}>Sign in</Button>
+        </Card>
 
     );
 };

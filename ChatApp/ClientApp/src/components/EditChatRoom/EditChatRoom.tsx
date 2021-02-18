@@ -1,28 +1,47 @@
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import fetchService from "../../services/fetchService";
-import {useParams} from "react-router";
 import {IChatRoom} from "../../Interfaces";
+import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
-const EditChatRoom = () => {
+interface IEditChatRoom {
+    id: string;
+}
+
+const EditChatRoom = ({id} : IEditChatRoom) => {
     const [name, setName] = useState<string>("");
+    const [modal, setModal] = useState<boolean>(false);
     const loginInfo = useSelector((state: any) => state.login);
-    const {id} = useParams()
+
+    const toggle = () => setModal(show => !show);
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const editedChatRoom: IChatRoom = {id: id!, name, userId: loginInfo.id}
         const isChatRoomEdited = await fetchService.editChatRoom(editedChatRoom, loginInfo.token);
-
         console.log(isChatRoomEdited);
+        toggle();
+        window.location.reload();
     }
 
     return (
         <>
-            <h1>Edit Chat Room</h1>
-            <input type="text" name="name" placeholder="name" value={name}
-                   onChange={({target}) => setName(target.value)}/>
-            <button type="submit" onClick={handleSubmit}>Edit Chatroom</button>
+            <Button color="warning" onClick={toggle}>
+                Edit
+            </Button>
+
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>
+                    Edit ChatRoom
+                </ModalHeader>
+                <ModalBody>
+                    <Input className="text-center" type="text" name="name" placeholder="name" value={name}
+                           onChange={({target}) => setName(target.value)}/>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="warning" type="submit" onClick={handleSubmit}>Edit Chatroom</Button>
+                </ModalFooter>
+            </Modal>
         </>
     )
 };

@@ -128,9 +128,10 @@ namespace ChatApp.Controllers
                     chatRoomId = message.ChatRoomId,
                     username = user.Username
                 })
+                .OrderBy(m => m.date)
                 .ToListAsync();
 
-            if (foundMessages == null || foundMessages.Count == 0) return NoContent();
+            if (foundMessages == null) return NoContent();
 
 
             return Ok(foundMessages);

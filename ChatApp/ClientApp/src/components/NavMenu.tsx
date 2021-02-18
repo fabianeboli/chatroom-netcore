@@ -19,7 +19,7 @@ const NavMenu = () => {
             <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
                 <Container>
                     <NavbarBrand tag={Link} to="/">ChatApp</NavbarBrand>
-                    {loginInfo.token && <p> Welcome, {loginInfo.username} </p>}
+                    {loginInfo.token && <span className="text-muted"> Welcome, {loginInfo.username} </span>}
                     <NavbarToggler onClick={toggle} className="mr-2"/>
                     <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={isOpen} navbar>
                         <ul className="navbar-nav flex-grow">

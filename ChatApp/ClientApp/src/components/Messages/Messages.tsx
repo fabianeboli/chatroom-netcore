@@ -4,6 +4,7 @@ import Message from "../Message/Message";
 import {useParams} from "react-router";
 import fetchService from "../../services/fetchService";
 import {useSelector} from "react-redux";
+import {Container} from "reactstrap";
 
 const Messages = () => {
     const [messages, setMessages] = useState<IMessage[]>([]);
@@ -24,11 +25,13 @@ const Messages = () => {
 
 
     return (
-        <div>
-            {messages.length > 0 && messages.map(({username, date, text}) => (
-                <Message username={username} date={date} text={text}/>
+        <Container>
+            {messages && messages.map(({username, date, text}) => (
+                <div>
+                {text && (<Message username={username} date={date} text={text}/>)}
+                </div>
             ))}
-        </div>
+        </Container>
     );
 };
 

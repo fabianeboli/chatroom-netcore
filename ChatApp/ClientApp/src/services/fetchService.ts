@@ -67,9 +67,9 @@ const deleteChatRoom = async (id: string, userId: string, token: string) => {
 }
 
 // messages
-const getMessages = async (chatRoomId: string, token: string) => {
+const getMessages = async (chatRoomId: string, token: string): Promise<any[]> => {
     const response = await fetch(`${chatController}/${chatRoomId}/message`, options(Method.GET, "", token));
-    return response.ok && response.json();
+    return response.ok ? response.json() : [];
 }
 
 const newMessage = async (chatRoomId: string, message: INewMessage, token: string) => {

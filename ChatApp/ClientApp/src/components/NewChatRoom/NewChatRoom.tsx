@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import fetchService from "../../services/fetchService";
 import {useSelector} from "react-redux";
+import {Container, Form, FormGroup, Input} from "reactstrap";
 
 const NewChatRoom = () => {
     const [name, setName] = useState<string>("");
@@ -13,12 +14,19 @@ const NewChatRoom = () => {
     }
 
     return (
-        <>
-            <h1>Create New Chat Room</h1>
-            <input type="text" name="name" placeholder="name" value={name}
-                   onChange={({target}) => setName(target.value)}/>
-            <button type="submit" onClick={handleSubmit}>Add Chatroom</button>
-        </>
+        <Container className="mx-auto col-lg-8 col-md-6">
+            <h1 className="text-center">Create New Chat Room</h1>
+            <Form inline className="flex justify-content-center">
+                <FormGroup row>
+                    <Input className="text-center my-2 mx-auto" type="text"
+                           name="name" placeholder="name" value={name}
+                           onChange={({target}) => setName(target.value)}/>
+                    <button className="btn btn-primary px-2 mx-1" type="submit" onClick={handleSubmit}>Add Chatroom
+                    </button>
+                </FormGroup>
+
+            </Form>
+        </Container>
     )
 }
 
