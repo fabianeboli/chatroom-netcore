@@ -32,10 +32,7 @@ const options = (method: Method, body: any = "", token: string = "") => {
 // user
 const login = async (user: ILogin) => {
     const response = await fetch(loginUrl, options(Method.POST, user));
-    if (response.ok) {
-        return await response.json();
-    }
-    return "Error";
+    return response.ok ? await response.json() : response.statusText;
 }
 
 const signUp = async (user: INewUser) => {

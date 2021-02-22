@@ -24,6 +24,7 @@ const SignIn = () => {
 
         if (isEmailValid && isPasswordValid) {
             const login = await fetchService.login({email, password});
+            if (!login) setError(error => [...error, "Wrong credentials"]);
             dispatch(storeLogin(login));
         }
 
