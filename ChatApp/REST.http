@@ -1,0 +1,36 @@
+GET http://localhost:5000/api/chatroom/
+
+###
+PATCH http://localhost:5000/api/chatroom/5
+Content-Type: application/json
+
+{
+  "op": "replace",
+  "path": "/chatroom/-",
+  "value": {
+    "name": "TestPatch",
+    "userId": 1
+  }
+}
+
+###
+PATCH http://localhost:5000/api/chatroom/5
+
+Body:
+    [
+        {
+            "op": "replace",
+            "path": "name",
+            "value": "123-123-123"
+        }
+    ]
+
+### 
+PUT  http://localhost:5000/api/chatroom/5
+Content-Type: application/json
+
+{
+  "id": "5",
+  "name": "AAAAAA",
+  "userId": 1
+}
