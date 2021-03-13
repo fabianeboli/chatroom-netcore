@@ -1,0 +1,10 @@
+{
+  "name": "chatapp",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "npm install --prefix ChatApp/ClientApp"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
