@@ -5,6 +5,7 @@
     "dotnet-ef": {
       "version": "5.0.4",
       "commands": [
+        "dotnet-restore",
         "dotnet-ef"
       ]
     }
