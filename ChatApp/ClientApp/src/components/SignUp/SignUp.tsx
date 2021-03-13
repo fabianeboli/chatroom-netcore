@@ -66,7 +66,7 @@ const SignUp = () => {
                         </Form>
                     </CardBody>
                     <Button color="primary" type="submit" className="w-75 align-self-center my-2"
-                            onClick={(event) => handleSubmit(event)}>Sign in</Button>
+                            onClick={(event) => handleSubmit(event)}>Sign Up</Button>
                 </Card>
             </Container>
 
