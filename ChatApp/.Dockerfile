@@ -2,8 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+COPY ./*.csproj ./
+RUN dotnet restore 
 
 # install npm
 RUN apt-get update && apt-get upgrade -y && \
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y && \
     npm                       # note this one
 
 # Copy everything else and build
-COPY . .
+COPY ./ .
 RUN dotnet publish -c release -o out
 
 # Build runtime image

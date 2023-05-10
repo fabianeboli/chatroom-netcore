@@ -1,4 +1,4 @@
 # .dockerignore
-
 bin/
 obj/
+out/
