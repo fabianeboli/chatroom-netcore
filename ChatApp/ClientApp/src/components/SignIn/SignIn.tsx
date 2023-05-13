@@ -11,8 +11,8 @@ type MouseEvent = React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>;
 
 const SignIn = () => {
     const [error, setError] = useState<string[]>([]);
-    const [email, setEmail] = useState<string>("test@test.com");
-    const [password, setPassword] = useState<string>("Ewqewqeads");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const dispatch = useDispatch();
     const loginSelector = useSelector((state: any) => state.login);
 
