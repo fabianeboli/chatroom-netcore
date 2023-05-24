@@ -14,6 +14,13 @@ An app in which user can:
 <div align="center"> 
 <h2>Video Presentation </h2>
 
-[Video Presentation](https://github.com/fabianeboli/chatroom-netcore/assets/22573987/02370afa-6629-4a07-afcd-88d4b38a93c0)
+[Video Presentation](https://github.com/fabianeboli/chatroom-netcore/assets/22573987/f6e1f50e-64f1-4b63-8e3e-d54d5296e2d3)
+
+
+
+
+
+
+
 
 </div>
